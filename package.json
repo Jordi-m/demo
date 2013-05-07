@@ -1,0 +1,18 @@
+{
+  "author": "Jordi Menheer",
+  "name": "socket",
+  "description": "Socket example",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jordi-m/demo.git"
+  },
+  "main": "socketserver.js",
+  "engines": {
+    "node": "~0.6.5"
+  },
+  "dependencies": {
+    "socket.io": "~0.9.14"
+  },
+  "devDependencies": {}
+}

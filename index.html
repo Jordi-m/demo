@@ -1,0 +1,53 @@
+<html>
+<head>
+<style type="text/css">
+#messages { padding: 0px; list-style-type: none;}
+#messages li { padding: 2px 0px; border-bottom: 1px solid #ccc; }
+#alarm{
+	position: absolute;
+	width: 400px;
+	height: 300px;
+	left: 50%;
+	margin-left: -200px;
+	background-color: red;
+	display: none;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(function(){
+	var socket = io.connect();
+	socket.on('connect', function () {
+		
+		socket.on('alarm', function(message) {
+			$('#messages').append($('<li></li>').text(message.prio + ' - ' + message.message));
+			
+			$('#alarm').fadeIn(250).delay(2000).fadeOut(100);
+			
+		});
+		
+		socket.on('current location', function(location) {
+			
+			$('#currentlocation').attr('src', 'http://maps.googleapis.com/maps/api/staticmap?center=' + location.lat +',' + location.lng +'&markers=color:red|' + location.lat +',' + location.lng +'|&zoom=16&size=300x300&sensor=false');
+			
+		});
+		
+		socket.on('disconnect', function() {
+			$('#messages').append('<li>Disconnected</li>');
+		});
+		
+		socket.on('flushall', function() {
+			$('#messages').html('');
+		});
+	});
+});
+</script>
+</head>
+<body>
+	<div id="alarm">Alarm</div>
+	<ul id="messages"></ul>
+	<hr>
+	<img id="currentlocation" src="http://maps.googleapis.com/maps/api/staticmap?center=51.92442,4.477766&zoom=12&size=300x300&sensor=false">
+</body>
+</html>
